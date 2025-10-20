@@ -1,0 +1,67 @@
+Spring Security is a framework for securing Java applications. It provides:
+
+Authentication – verifies user identity.
+
+Authorization – controls access to resources.
+
+Protection against common vulnerabilities such as CSRF, XSS, session fixation, and clickjacking.
+
+Seamless integration with Spring Boot and Spring MVC for easy setup.
+
+Why Use Spring Security?
+
+Protects user data and application resources.
+
+Offers flexible authentication and authorization mechanisms.
+
+Helps prevent common security threats.
+
+Supports enterprise requirements such as LDAP, OAuth2, and JWT.
+
+Key Features
+
+Authentication & Authorization
+
+Authenticate users (e.g., username/password login).
+
+Control access to pages or APIs based on roles.
+
+Protection Against Common Vulnerabilities
+
+CSRF (Cross-Site Request Forgery)
+
+Session Fixation
+
+Clickjacking
+
+XSS (with Content Security Policies)
+
+Integration with Spring Framework
+
+Easy configuration via Spring Boot starter (spring-boot-starter-security).
+
+Automatic security for web apps and APIs.
+
+Password Management
+
+Supports bcrypt and hashing.
+
+Utilities for verifying passwords.
+
+Method-Level Security
+
+Annotations: @PreAuthorize, @PostAuthorize, @Secured
+
+Example:
+
+@PreAuthorize("hasRole('ADMIN')")
+public void deleteUser(Long id) { ... }
+
+
+Support for Modern Security Standards
+
+JWT for stateless authentication.
+
+OAuth2 & OpenID Connect for SSO.
+
+LDAP for enterprise authentication.
