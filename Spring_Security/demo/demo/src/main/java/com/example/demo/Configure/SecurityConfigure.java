@@ -1,6 +1,8 @@
 package com.example.demo.Configure;
 
 
+import com.example.demo.Service.UserServiceImplement;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -24,21 +26,32 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 
 @EnableWebSecurity
 @Configuration
 public class SecurityConfigure {
 
+    @Autowired
+    UserDetailsService userDetailsService;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))    // Disable CSRF cho API
+                .exceptionHandling(exceptions -> exceptions
+                        // Khi chưa xác thực (AuthenticationException), trả về 401 UNAUTHORIZED
+                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+                )
+//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))    // Disable CSRF cho API
                 .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/login").permitAll() // chỉ match path
+                        .requestMatchers("/login", "/createUser", "/getAllUser").permitAll() // Công khai
+
+                        // Bảo vệ các API khác
                         .anyRequest().authenticated()
-                )// tắt formLogin
-                .httpBasic(Customizer.withDefaults()); // nếu dùng Basic Auth
+                )
+                // tắt formLogin
+                .httpBasic(basic -> basic.disable()); // nếu dùng Basic Auth
         return http.build();
     }
 
@@ -58,19 +71,6 @@ public class SecurityConfigure {
         return provider;
     }
 
-    @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder encoder) {
-        return new InMemoryUserDetailsManager(
-                User.withUsername("john")
-                        .password(encoder.encode("password"))
-                        .roles("USER")
-                        .build(),
-                User.withUsername("admin")
-                        .password(encoder.encode("admin123"))
-                        .roles("ADMIN")
-                        .build()
-        );
-    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
