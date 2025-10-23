@@ -1,4 +1,4 @@
-package Model;
+package com.example.demo_jwt_security.Model;
 
 import lombok.Data;
 import lombok.Getter;

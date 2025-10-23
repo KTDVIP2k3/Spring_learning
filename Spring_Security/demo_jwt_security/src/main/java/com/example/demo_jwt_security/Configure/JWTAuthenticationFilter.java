@@ -1,11 +1,12 @@
-package Configure;
+package com.example.demo_jwt_security.Configure;
 
-import Services.JwtService;
+import com.example.demo_jwt_security.Services.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,9 +24,11 @@ import java.util.List;
 @Component
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
+    @Lazy
     private JwtService jwtService;
 
     @Autowired
+    @Lazy
     private UserDetailsService userDetailsService;
 
     // Định nghĩa các đường dẫn công khai (cùng với các đường dẫn trong permitAll() của SecurityConfig)

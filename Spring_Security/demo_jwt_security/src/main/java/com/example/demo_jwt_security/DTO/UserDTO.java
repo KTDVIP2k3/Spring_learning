@@ -1,4 +1,5 @@
-package DTO;
+package com.example.demo_jwt_security.DTO;
+
 
 import lombok.Data;
 import lombok.Getter;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Getter
 @Setter
-public class LoginDTO {
+public class UserDTO {
     private String userName;
     private String passWord;
 
